@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="DavidNews" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2014-06.2.4">
+  <WorkerRole name="RSSParser" vmsize="ExtraSmall">
+    <ConfigurationSettings>
+      <Setting name="RSSFeeds" />
+      <Setting name="RefreshIntervalInMinutes" />
+      <Setting name="Redis.ConnectionString" />
+      <Setting name="Redis.KeyPrefix" />
+      <Setting name="Redis.CacheExpirationInMinutes" />
+      <Setting name="Redis.ExpirationIntervalInMinutes" />
+      <Setting name="Redis.BaseScore" />
+    </ConfigurationSettings>
+  </WorkerRole>
+</ServiceDefinition>

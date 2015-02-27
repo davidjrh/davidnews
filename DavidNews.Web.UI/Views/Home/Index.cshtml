@@ -1,0 +1,61 @@
+﻿@using System.Configuration
+@model DavidNews.Web.UI.Models.NewsFeedsModel
+
+@{
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-12 text-center">
+        <span>|</span>
+        @foreach (var item in Model.Categories)
+        {
+            <span>@Html.ActionLink(item, "Index", "Home", new { category = item }, new {})
+                | </span>
+        }
+    </div>
+</div>
+@foreach (var item in Model.Items)
+{
+    <div class="row">
+        <h3>
+            @Html.ActionLink(item.Item.Title, "BrowseItem", "Home", new { id = item.Item.Id }, new { target = "_new" })
+            <br />
+            <small>
+                @item.Item.PublishDate.ToLongDateString() | @DavidNews.Common.Formatting.GetPrettyDate(item.Item.PublishDate.AddHours(-1)) | @item.Item.Source
+                @if (bool.Parse(ConfigurationManager.AppSettings["ShowScore"]))
+                {
+                    <span>| @item.Score points </span>
+                }
+            </small>
+        </h3>
+        <p class="lead">
+                
+            @if (item.Item.Links.Length > 1)
+            {
+                <img src="@item.Item.Links[1].Url.ToString()" class="col-md-2 img-responsive" />
+                <span class="col-md-10">
+                    @Html.Raw(HttpUtility.HtmlDecode(item.Item.Summary)) <br />
+                    @foreach (var cat in item.Item.Categories.Where(x => Model.Categories.Contains(x)))
+                                {
+                        @Html.ActionLink(cat, "Index", "Home", new { category = cat }, new { @class = "btn btn-success btn-xs" })
+                        <small></small>
+                                }
+                </span>
+            }
+            else
+            {
+                @Html.Raw(HttpUtility.HtmlDecode(item.Item.Summary)) <br />
+                foreach (var cat in item.Item.Categories.Where(x => Model.Categories.Contains(x)))
+                {
+                    @Html.ActionLink(cat, "Index", "Home", new { category = cat }, new { @class = "btn btn-success btn-xs" })
+                    <small></small>
+                }
+            }
+
+
+        </p>
+    </div>
+}
+
